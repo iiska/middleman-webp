@@ -61,7 +61,7 @@ module Middleman
       def number_to_human_size(n)
         units = %w{B KiB MiB GiB TiB PiB}
         exponent = (Math.log(n) / Math.log(1024)).to_i
-        "%.2f #{units[exponent]}" % (n.to_f / 1024**exponent)
+        "%g #{units[exponent]}" % ("%.2f" % (n.to_f / 1024**exponent))
       end
     end
   end
