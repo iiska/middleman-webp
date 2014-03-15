@@ -1,7 +1,7 @@
 # Middleman::Webp
 
-Middleman extensions that generates WebP versions of each image used
-in site during build.
+This is [Middleman][middleman] extension that generates WebP versions
+of each image used in site during build.
 
 WebP is image format developed by Google and it usually generates
 smaller files than regular jpeg or png formats.
@@ -10,6 +10,8 @@ Browser's supporting WebP will include Accepts header to the image
 file requests so you can refer to jpegs or pngs in your HTML and use
 for example .htaccess configuration to provide smaller alternatives
 for browser's supporting WebP.
+
+[middleman]: http://middlemanapp.com
 
 ## Installation
 
