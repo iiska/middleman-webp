@@ -35,6 +35,10 @@ module Middleman
         system("cwebp -quiet #{src} -o #{dst}")
       end
 
+      def run_gif2webp(src, dst)
+        system("gif2webp -quiet #{src} -o #{dst}")
+      end
+
       def reject_file(file)
         @builder.say_status :webp, "#{file.path} skipped", :yellow
         File.unlink(file)
