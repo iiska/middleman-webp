@@ -38,10 +38,12 @@ activate :webp
 
 ## Configuring your site to provide WebP alternatives
 
-TODO: Write about .htaccess aproach
+Configure web server to serve WebP images if they are available and
+browser has set the HTTP Accept header.
 
-TODO: Write about Modernizr
+Look for [this example how to do it in .htaccess][htaccess].
 
+[htaccess]: https://github.com/vincentorback/WebP-images-with-htaccess
 
 ## Contributing
 
