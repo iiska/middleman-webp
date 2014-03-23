@@ -1,10 +1,13 @@
+require "middleman-webp/options"
+
 module Middleman
   module WebP
 
     class Converter
 
-      def initialize(app, builder)
+      def initialize(app, options={}, builder)
         @app = app
+        @options = Middleman::WebP::Options.new(options)
         @builder = builder
       end
 
@@ -22,21 +25,20 @@ module Middleman
       def convert_images(paths, &after_conversion)
         paths.each do |p|
           dst = destination_path(p)
-          if p.to_s =~ /gif$/i
-            run_gif2webp(p, dst)
-          else
-            run_cwebp(p, dst)
-          end
+          exec_convert_tool(p, dst)
           yield File.new(p), File.new(dst)
         end
       end
 
-      def run_cwebp(src, dst)
-        system("cwebp -quiet #{src} -o #{dst}")
+      def exec_convert_tool(src, dst)
+        system("#{tool_for(src)} #{@options.for(src)} -quiet #{src} -o #{dst}")
       end
 
-      def run_gif2webp(src, dst)
-        system("gif2webp -quiet #{src} -o #{dst}")
+      # Internal: Return proper tool command based on file type
+      #
+      # file - Filename
+      def tool_for(file)
+        file.to_s =~ /gif$/i ? "gif2webp" : "cwebp"
       end
 
       def reject_file(file)
@@ -49,7 +51,7 @@ module Middleman
       # src - File instance of the source
       # dst - File instance of the destination
       def change_percentage(src, dst)
-        "%.2f%%" % [100 - 100.0 * dst.size / src.size]
+        "%g %%" % ("%.2f" % [100 - 100.0 * dst.size / src.size])
       end
 
       def destination_path(src_path)

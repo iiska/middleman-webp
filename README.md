@@ -41,6 +41,20 @@ And activate :webp extension in your config.rb:
 activate :webp
 ```
 
+Options for conversion are defined using
+[Ruby's glob syntax](http://www.ruby-doc.org/core-2.1.1/Dir.html#method-c-glob)
+for matching image files and hashes containing args supported by
+cwebp:
+
+``` ruby
+activate :webp do |webp|
+  webp.conversion_options = {
+    "icons/*.png" => {lossless: true},
+    "photos/**/*.jpg" => {q: 100}
+  }
+end
+```
+
 ## Configuring your site to provide WebP alternatives
 
 Configure web server to serve WebP images if they are available and
