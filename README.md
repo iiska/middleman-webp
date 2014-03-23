@@ -11,7 +11,12 @@ file requests so you can refer to jpegs or pngs in your HTML and use
 for example .htaccess configuration to provide smaller alternatives
 for browser's supporting WebP.
 
+See my blog post
+["Introducing WebP extension for Middleman"][blog-post] for more
+details why I think using WebP matters.
+
 [middleman]: http://middlemanapp.com
+[blog-post]: http://byteplumbing.net/2014/03/introducing-webp-extension-for-middleman/
 
 ## Installation
 
