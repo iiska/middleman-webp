@@ -12,14 +12,17 @@ module Middleman
       end
 
       def convert
-        @total = 0
+        @original_size = 0
+        @converted_size = 0
         convert_images(image_files) do |src, dst|
           next reject_file(dst) if dst.size >= src.size
 
-          @total += (src.size - dst.size)
-          @builder.say_status :webp, "#{dst.path} (#{change_percentage(src,dst)} smaller)"
+          @original_size += src.size
+          @converted_size += dst.size
+          @builder.say_status :webp, "#{dst.path} (#{change_percentage(src.size,dst.size)} smaller)"
         end
-        @builder.say_status(:webp, "Total conversion savings: #{number_to_human_size(@total)}", :blue)
+        savings = @original_size - @converted_size
+        @builder.say_status(:webp, "Total conversion savings: #{number_to_human_size(savings)} (#{change_percentage(@original_size, @converted_size)})", :blue)
       end
 
       def convert_images(paths, &after_conversion)
@@ -50,8 +53,8 @@ module Middleman
       #
       # src - File instance of the source
       # dst - File instance of the destination
-      def change_percentage(src, dst)
-        "%g %%" % ("%.2f" % [100 - 100.0 * dst.size / src.size])
+      def change_percentage(src_size, dst_size)
+        "%g %%" % ("%.2f" % [100 - 100.0 * dst_size / src_size])
       end
 
       def destination_path(src_path)

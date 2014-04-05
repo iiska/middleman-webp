@@ -9,15 +9,11 @@ describe Middleman::WebP::Converter do
 
   describe "#change_percentage" do
     it "returns how many percents smaller destination file is" do
-      src = stub(:size => 10000)
-      dst = stub(:size => 8746)
-      @converter.change_percentage(src, dst).must_equal "12.54 %"
+      @converter.change_percentage(10000, 8746).must_equal "12.54 %"
     end
 
     it "omits zeroes in the end of decimal part" do
-      src = stub(:size => 100)
-      dst = stub(:size => 76)
-      @converter.change_percentage(src, dst).must_equal "24 %"
+      @converter.change_percentage(100, 76).must_equal "24 %"
     end
   end
 
