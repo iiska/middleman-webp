@@ -15,6 +15,10 @@ describe Middleman::WebP::Converter do
     it "omits zeroes in the end of decimal part" do
       @converter.change_percentage(100, 76).must_equal "24 %"
     end
+
+    it "returns 0% when original and new size are both 0" do
+      @converter.change_percentage(0, 0).must_equal "0 %"
+    end
   end
 
   describe "#number_to_human_size" do
@@ -22,6 +26,10 @@ describe Middleman::WebP::Converter do
       @converter.number_to_human_size(100).must_equal "100 B"
       @converter.number_to_human_size(1234).must_equal "1.21 KiB"
       @converter.number_to_human_size(2_634_234).must_equal "2.51 MiB"
+    end
+
+    it 'handles zero size properly' do
+      @converter.number_to_human_size(0).must_equal '0 B'
     end
   end
 

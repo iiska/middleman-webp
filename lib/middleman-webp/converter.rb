@@ -27,9 +27,13 @@ module Middleman
 
       def convert_images(paths, &after_conversion)
         paths.each do |p|
-          dst = destination_path(p)
-          exec_convert_tool(p, dst)
-          yield File.new(p), File.new(dst)
+          begin
+            dst = destination_path(p)
+            exec_convert_tool(p, dst)
+            yield File.new(p), File.new(dst)
+          rescue
+            @builder.say_status :webp, "Converting #{p} failed", :red
+          end
         end
       end
 
@@ -54,7 +58,9 @@ module Middleman
       # src - File instance of the source
       # dst - File instance of the destination
       def change_percentage(src_size, dst_size)
-        "%g %%" % ("%.2f" % [100 - 100.0 * dst_size / src_size])
+        return '0 %' if src_size == 0
+
+        format('%g %%', format('%.2f', 100 - 100.0 * dst_size / src_size))
       end
 
       def destination_path(src_path)
@@ -68,9 +74,12 @@ module Middleman
       end
 
       def number_to_human_size(n)
+        return '0 B' if n == 0
+
         units = %w{B KiB MiB GiB TiB PiB}
         exponent = (Math.log(n) / Math.log(1024)).to_i
-        "%g #{units[exponent]}" % ("%.2f" % (n.to_f / 1024**exponent))
+        format("%g #{units[exponent]}",
+               format('%.2f', n.to_f / 1024**exponent))
       end
     end
   end
