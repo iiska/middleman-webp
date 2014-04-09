@@ -1,1 +1,1 @@
-require "middleman-webp"
+require 'middleman-webp'
