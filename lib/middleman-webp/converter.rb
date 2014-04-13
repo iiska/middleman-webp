@@ -64,6 +64,13 @@ module Middleman
       #
       # src - File instance of the source
       # dst - File instance of the destination
+      #
+      # Examples
+      #
+      #   change_percentage(100, 75)
+      #   # => '25 %'
+      #
+      # Returns percentage as string.
       def change_percentage(src_size, dst_size)
         return '0 %' if src_size == 0
 
@@ -80,6 +87,17 @@ module Middleman
         all.select { |p| p.to_s =~ SUFFIX_RE }
       end
 
+      # Output file size using most human friendly multiple of byte
+      # eg. MiB.
+      #
+      # n - size in bytes
+      #
+      # Examples
+      #
+      #   number_to_human_size(12345)
+      #   # => '12.06 KiB'
+      #
+      # Returns string containing size and unit.
       def number_to_human_size(n)
         return '0 B' if n == 0
 
