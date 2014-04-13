@@ -43,14 +43,15 @@ activate :webp
 
 Options for conversion are defined using
 [Ruby's glob syntax](http://www.ruby-doc.org/core-2.1.1/Dir.html#method-c-glob)
-for matching image files and hashes containing args supported by
-cwebp:
+or [Regexp](http://www.ruby-doc.org/core-2.1.1/Regexp.html) for
+matching image files and hashes containing args supported by cwebp:
 
 ``` ruby
 activate :webp do |webp|
   webp.conversion_options = {
     "icons/*.png" => {lossless: true},
-    "photos/**/*.jpg" => {q: 100}
+    "photos/**/*.jpg" => {q: 100},
+    /[0-9]/.+gif$/ => {lossy: true}
   }
 end
 ```

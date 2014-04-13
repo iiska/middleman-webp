@@ -4,7 +4,7 @@ require_relative '../../lib/middleman-webp/options'
 
 describe Middleman::WebP::Options do
   describe '#for' do
-    it 'returns cwebp args when given file matches option file pattern' do
+    it 'returns cwebp args when given file matches option file pattern glob' do
       path = Pathname.new('test_image.jpg')
       options = Middleman::WebP::Options.new '*.jpg' => {
         lossless: true,
@@ -21,6 +21,16 @@ describe Middleman::WebP::Options do
 
       args = options.for(path)
       args.must_be_empty
+    end
+
+    it 'returns cwebp args when given file matches option pattern regexp' do
+      path = Pathname.new('test_image.jpg')
+      options = Middleman::WebP::Options.new(/jpg$/ => {
+                                               q: 85
+                                             })
+
+      args = options.for(path)
+      args.must_match(/^-q 85$/)
     end
   end
 end

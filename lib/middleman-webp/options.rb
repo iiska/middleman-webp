@@ -1,9 +1,11 @@
+require 'middleman-webp/pathname_matcher'
+
 module Middleman
   module WebP
     class Options
       def initialize(options = {})
         @options = options.reduce(Hash.new('')) do |h, (k, v)|
-          h[k] = to_args(v)
+          h[Middleman::WebP::PathnameMatcher.new(k)] = to_args(v)
           h
         end
       end
@@ -14,7 +16,7 @@ module Middleman
       # glob pattern matches file path and uses the one with longest
       # glob, because it's assumed to be the most precise one.
       def for(file)
-        matching = @options.select { |g, o| file.fnmatch?(g) }
+        matching = @options.select { |m, o| m.matches? file }
 
         return '' if matching.empty?
 
