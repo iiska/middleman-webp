@@ -41,6 +41,8 @@ And activate :webp extension in your config.rb:
 activate :webp
 ```
 
+### Custom conversion options
+
 Options for conversion are defined using
 [Ruby's glob syntax](http://www.ruby-doc.org/core-2.1.1/Dir.html#method-c-glob)
 or [Regexp](http://www.ruby-doc.org/core-2.1.1/Regexp.html) for
@@ -55,6 +57,22 @@ activate :webp do |webp|
   }
 end
 ```
+
+### Ignoring some of the image files at you site
+
+If there are some image files that you don't want to convert to the
+webp alternatives, you could ignore them using ```ignore``` option
+matching those paths.
+
+``` ruby
+activate :webp do |webp|
+  webp.ignore = '**/*.gif'
+end
+```
+
+Ignore option accepts one or an array of String globs, Regexps or
+Procs.
+
 
 ## Configuring your site to provide WebP alternatives
 
