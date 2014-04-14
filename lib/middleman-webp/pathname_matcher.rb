@@ -22,7 +22,9 @@ module Middleman
 
       def match_method
         @match_method ||=
-          if @pattern.class == Regexp
+          if @pattern.respond_to? :call
+            :matches_proc?
+          elsif @pattern.class == Regexp
             :matches_re?
           else
             :matches_glob?
@@ -35,6 +37,10 @@ module Middleman
 
       def matches_re?(path)
         !@pattern.match(Pathname.new(path).to_s).nil?
+      end
+
+      def matches_proc?(path)
+        @pattern.call(Pathname.new(path).to_s)
       end
     end
   end

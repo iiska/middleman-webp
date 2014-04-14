@@ -1,10 +1,12 @@
 require 'spec_helper'
 require 'pathname'
+require 'middleman-core'
 require_relative '../../lib/middleman-webp/converter'
 
 describe Middleman::WebP::Converter do
   before do
-    @converter = Middleman::WebP::Converter.new(nil, {}, nil)
+    @app_mock = stub(inst: stub(build_dir: 'spec/fixtures'))
+    @converter = Middleman::WebP::Converter.new(@app_mock, {}, nil)
   end
 
   describe '#destination_path' do
@@ -53,6 +55,30 @@ describe Middleman::WebP::Converter do
       @converter.tool_for(path).must_equal 'cwebp'
       path = Pathname.new('/some/path/image.tiff')
       @converter.tool_for(path).must_equal 'cwebp'
+    end
+  end
+
+  describe '#image_files' do
+    it 'includes all image files in Middleman build dir' do
+      @converter.image_files.size.must_equal 3
+    end
+
+    it 'won\'t include ignored files' do
+      @converter = Middleman::WebP::Converter.new(@app_mock, {
+                                                    ignore: [/jpg$/, '**/*.gif']
+                                                  }, nil)
+
+      files_to_include = [Pathname.new('spec/fixtures/empty.png')]
+      @converter.image_files.must_equal files_to_include
+    end
+
+    it 'won\'t include files rejected by given proc' do
+      options = {
+        ignore: ->(path) { path.end_with? 'jpg' }
+      }
+      @converter = Middleman::WebP::Converter.new(@app_mock, options, nil)
+
+      @converter.image_files.size.must_equal 2
     end
   end
 end

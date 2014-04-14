@@ -6,10 +6,15 @@ describe Middleman::WebP::Options do
   describe '#for' do
     it 'returns cwebp args when given file matches option file pattern glob' do
       path = Pathname.new('test_image.jpg')
-      options = Middleman::WebP::Options.new '*.jpg' => {
-        lossless: true,
-        q: 85
+      options_hash = {
+        conversion_options: {
+          '*.jpg' => {
+            lossless: true,
+            q: 85
+          }
+        }
       }
+      options = Middleman::WebP::Options.new options_hash
 
       args = options.for(path)
       args.must_match(/^(-q 85|-lossless) (-q 85|-lossless)$/)
@@ -25,9 +30,14 @@ describe Middleman::WebP::Options do
 
     it 'returns cwebp args when given file matches option pattern regexp' do
       path = Pathname.new('test_image.jpg')
-      options = Middleman::WebP::Options.new(/jpg$/ => {
-                                               q: 85
-                                             })
+      options_hash = {
+        conversion_options: {
+          /jpg$/ => {
+            q: 85
+          }
+        }
+      }
+      options = Middleman::WebP::Options.new options_hash
 
       args = options.for(path)
       args.must_match(/^-q 85$/)

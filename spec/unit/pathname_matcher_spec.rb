@@ -5,8 +5,7 @@ describe Middleman::WebP::PathnameMatcher do
 
   describe '#matches?' do
     it 'returns true when given file matches pattern' do
-      # TODO: Proc with File, Pathname and String instances
-      patterns = ['**/*.jpg', /jpg$/]
+      patterns = ['**/*.jpg', /jpg$/, ->(path) { path.end_with?('jpg') }]
       files = [
         'images/sample.jpg',
         Pathname.new('images/another.jpg'),
@@ -23,9 +22,7 @@ describe Middleman::WebP::PathnameMatcher do
     end
 
     it 'returns false when given file won\'t match pattern' do
-      # TODO: Match against Proc with File, Pathname and String
-      # instances
-      patterns = ['**/*.jpg', /jpg$/]
+      patterns = ['**/*.jpg', /jpg$/, ->(path) { path.end_with?('jpg') }]
       files = [
         'images/sample.png',
         Pathname.new('images/another.png'),

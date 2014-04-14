@@ -84,7 +84,12 @@ module Middleman
 
       def image_files
         all = ::Middleman::Util.all_files_under(@app.inst.build_dir)
-        all.select { |p| p.to_s =~ SUFFIX_RE }
+        images = all.select { |p| p.to_s =~ SUFFIX_RE }
+
+        # Reject files matching possible ignore patterns
+        @options.ignore.reduce(images) do |arr, matcher|
+          arr.select { |path| !matcher.matches? path }
+        end
       end
 
       # Output file size using most human friendly multiple of byte

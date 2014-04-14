@@ -3,8 +3,16 @@ require 'middleman-webp/pathname_matcher'
 module Middleman
   module WebP
     class Options
+      attr_reader :ignore
+
       def initialize(options = {})
-        @options = options.reduce(Hash.new('')) do |h, (k, v)|
+        @ignore = options[:ignore] || []
+        @ignore = [*@ignore].map do |pattern|
+          Middleman::WebP::PathnameMatcher.new(pattern)
+        end
+
+        @conversion = options[:conversion_options] || {}
+        @conversion = @conversion.reduce(Hash.new('')) do |h, (k, v)|
           h[Middleman::WebP::PathnameMatcher.new(k)] = to_args(v)
           h
         end
@@ -16,7 +24,7 @@ module Middleman
       # glob pattern matches file path and uses the one with longest
       # glob, because it's assumed to be the most precise one.
       def for(file)
-        matching = @options.select { |m, o| m.matches? file }
+        matching = @conversion.select { |m, o| m.matches? file }
 
         return '' if matching.empty?
 
