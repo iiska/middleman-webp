@@ -1,3 +1,7 @@
+## 0.2.5
+
+- Fixes regression bug with extension config options
+
 ## 0.2.4
 
 - Add ```ignore``` option similar to the one in the [asset_hash extension](http://middlemanapp.com/advanced/improving-cacheability/#uniquely-named-assets) 26fb7972c9f7808a222fb03d0a4e11e60f9148d8

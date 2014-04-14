@@ -9,8 +9,10 @@ module Middleman
     def initialize(app, options_hash = {}, &block)
       super
 
+      configuration = options
+
       app.after_build do |builder|
-        Middleman::WebP::Converter.new(app, options_hash, builder).convert
+        Middleman::WebP::Converter.new(app, configuration, builder).convert
       end
     end
   end
