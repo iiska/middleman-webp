@@ -30,6 +30,8 @@ install those first for your system.
 - Fedora: ```yum install libwebp-tools```
 - Ubuntu: ```apt-get install webp```
 - OS X: ```brew install webp```
+- Or install from the Google's WebP site:
+  https://developers.google.com/speed/webp/download
 
 Add this line to your Middleman site's Gemfile:
 
