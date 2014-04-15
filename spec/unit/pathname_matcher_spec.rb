@@ -9,7 +9,7 @@ describe Middleman::WebP::PathnameMatcher do
       files = [
         'images/sample.jpg',
         Pathname.new('images/another.jpg'),
-        File.new('spec/fixtures/empty.jpg')
+        File.new('spec/fixtures/dummy-build/empty.jpg')
       ]
 
       patterns.each do |p|
@@ -26,7 +26,7 @@ describe Middleman::WebP::PathnameMatcher do
       files = [
         'images/sample.png',
         Pathname.new('images/another.png'),
-        File.new('spec/fixtures/empty.png')
+        File.new('spec/fixtures/dummy-build/empty.png')
       ]
 
       patterns.each do |p|

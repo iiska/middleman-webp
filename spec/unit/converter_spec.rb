@@ -5,7 +5,7 @@ require_relative '../../lib/middleman-webp/converter'
 
 describe Middleman::WebP::Converter do
   before do
-    @app_mock = stub(inst: stub(build_dir: 'spec/fixtures'))
+    @app_mock = stub(inst: stub(build_dir: 'spec/fixtures/dummy-build'))
     @converter = Middleman::WebP::Converter.new(@app_mock, {}, nil)
   end
 
@@ -68,7 +68,7 @@ describe Middleman::WebP::Converter do
                                                     ignore: [/jpg$/, '**/*.gif']
                                                   }, nil)
 
-      files_to_include = [Pathname.new('spec/fixtures/empty.png')]
+      files_to_include = [Pathname.new('spec/fixtures/dummy-build/empty.png')]
       @converter.image_files.must_equal files_to_include
     end
 
