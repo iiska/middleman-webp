@@ -27,9 +27,9 @@ details why I think using WebP matters.
 Middleman-webp depends on cwep and gif2webp commandline tools, so
 install those first for your system.
 
-- Fedora: yum install libwebp-tools
-- Ubuntu: apt-get install webp
-- OS X: brew install webp
+- Fedora: ```yum install libwebp-tools```
+- Ubuntu: ```apt-get install webp```
+- OS X: ```brew install webp```
 
 Add this line to your Middleman site's Gemfile:
 
