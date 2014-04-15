@@ -8,6 +8,9 @@ describe Middleman::WebPExtension do
     @builder.expects(:say_status).once.with do |action, msg, opts|
         action == :webp and msg =~ /Total conversion savings/
       end
+    @builder.stubs(:say_status).with do |action, msg, opts|
+      action == :webp and msg =~ /Please install latest version of webp/
+    end
   end
 
   after do

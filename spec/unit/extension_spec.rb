@@ -34,14 +34,14 @@ describe Middleman::WebPExtension do
       @extension.dependencies_installed?(builder_mock).must_equal false
     end
 
-    it 'returns false and displays error if gif2webp is missing' do
+    it 'displays error if only gif2webp is missing and returns still true' do
       Shell.any_instance.expects(:find_system_command).with('gif2webp').raises(Shell::Error::CommandNotFound)
       Shell.any_instance.stubs(:find_system_command).with('cwebp').returns('/usr/bin/cwebp')
 
       builder_mock = stub(:say_status)
       builder_mock.stubs(:say_status).once
 
-      @extension.dependencies_installed?(builder_mock).must_equal false
+      @extension.dependencies_installed?(builder_mock).must_equal true
     end
   end
 

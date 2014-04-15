@@ -26,9 +26,16 @@ module Middleman
     # Returns true if all is OK.
     def dependencies_installed?(builder)
       sh = Shell.new
+
       begin
-        true if sh.find_system_command('cwebp') and sh.find_system_command('gif2webp')
-      rescue Exception => e
+        sh.find_system_command('gif2webp')
+      rescue Shell::Error::CommandNotFound => e
+        builder.say_status :webp, "#{e.message} Please install latest version of webp library and tools to get gif2webp and be able to convert gif files also.", :red
+      end
+
+      begin
+        true if sh.find_system_command('cwebp')
+      rescue Shell::Error::CommandNotFound => e
         builder.say_status :webp, "ERROR: #{e.message} Please install cwebp and gif2webp commandline tools first.", :red
         false
       end
