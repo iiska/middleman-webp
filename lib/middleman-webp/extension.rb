@@ -8,6 +8,9 @@ module Middleman
     option(:conversion_options, {},
            'Custom conversion options for cwebp/gif2webp')
     option(:ignore, [], 'Ignores files with matching paths')
+    option(:verbose, false, 'Display all external command which are executed '\
+           'to help debugging.')
+
     def initialize(app, options_hash = {}, &block)
       super
       @app = app

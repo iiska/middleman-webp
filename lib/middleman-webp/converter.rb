@@ -38,7 +38,8 @@ module Middleman
       end
 
       def exec_convert_tool(src, dst)
-        system("#{tool_for(src)} #{@options.for(src)} -quiet #{src} -o #{dst}")
+        cmd = "#{tool_for(src)} #{@options.for(src)} -quiet #{src} -o #{dst}"
+        @builder.run cmd, verbose: @options.verbose, capture: true
       end
 
       # Internal: Return proper tool command based on file type
