@@ -15,7 +15,7 @@ module Middleman
       def matches?(path)
         return false if path.nil?
 
-        send match_method, path
+        send match_method, Pathname.new(path)
       end
 
       private
@@ -32,15 +32,15 @@ module Middleman
       end
 
       def matches_glob?(path)
-        Pathname.new(path).fnmatch?(@pattern)
+        path.fnmatch?(@pattern)
       end
 
       def matches_re?(path)
-        !@pattern.match(Pathname.new(path).to_s).nil?
+        !@pattern.match(path.to_s).nil?
       end
 
       def matches_proc?(path)
-        @pattern.call(Pathname.new(path).to_s)
+        @pattern.call(path.to_s)
       end
     end
   end
