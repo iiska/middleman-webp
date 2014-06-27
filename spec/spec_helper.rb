@@ -1,8 +1,13 @@
 require 'simplecov'
-require 'minitest/autorun'
-require 'mocha/mini_test'
+require 'coveralls'
 
-
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+]
 SimpleCov.start do
   add_filter '/spec/'
 end
+
+require 'minitest/autorun'
+require 'mocha/mini_test'
