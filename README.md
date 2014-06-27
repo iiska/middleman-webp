@@ -2,6 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/middleman-webp.svg)](http://badge.fury.io/rb/middleman-webp)
 [![Build Status](https://travis-ci.org/iiska/middleman-webp.svg?branch=master)](https://travis-ci.org/iiska/middleman-webp)
+[![Coverage Status](https://img.shields.io/coveralls/iiska/middleman-webp.svg)](https://coveralls.io/r/iiska/middleman-webp?branch=master)
 [![Dependency Status](https://gemnasium.com/iiska/middleman-webp.svg)](https://gemnasium.com/iiska/middleman-webp)
 
 This is [Middleman][middleman] extension that generates WebP versions
