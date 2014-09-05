@@ -16,6 +16,17 @@ describe Middleman::WebP::Converter do
     end
   end
 
+  describe '#destination_path with append_extension = true' do
+    before do
+      @converter = Middleman::WebP::Converter.new(@app_mock, {append_extension: true}, nil)
+    end
+
+    it 'returns file name with same basename and webp suffix' do
+      d = @converter.destination_path(Pathname.new('build/images/sample.jpg'))
+      d.to_s.must_equal 'build/images/sample.jpg.webp'
+    end
+  end
+
   describe '#change_percentage' do
     it 'returns how many percents smaller destination file is' do
       @converter.change_percentage(10_000, 8746).must_equal '12.54 %'

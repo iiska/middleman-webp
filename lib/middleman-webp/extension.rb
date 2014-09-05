@@ -7,6 +7,8 @@ module Middleman
   class WebPExtension < Extension
     option(:conversion_options, {},
            'Custom conversion options for cwebp/gif2webp')
+    option(:append_extension, false,
+           'keep the original filename and extension and append .webp (image.png => image.png.webp)')
     option(:ignore, [], 'Ignores files with matching paths')
     option(:verbose, false, 'Display all external command which are executed '\
            'to help debugging.')
