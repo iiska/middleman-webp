@@ -80,6 +80,17 @@ end
 Ignore option accepts one or an array of String globs, Regexps or
 Procs.
 
+### Append the .webp extension instead of replacing the original extension
+
+If you want the output images to be named **sample.png.webp**
+instead of **sample.webp**, set the option `append_extension` to true.
+
+``` ruby
+activate :webp do |webp|
+  webp.append_extension = true
+end
+```
+
 
 ## Configuring your site to provide WebP alternatives
 

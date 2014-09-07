@@ -79,7 +79,11 @@ module Middleman
       end
 
       def destination_path(src_path)
-        dst_name = src_path.basename.to_s.gsub(SUFFIX_RE, 'webp')
+        if @options.append_extension
+          dst_name = "#{src_path.basename.to_s}.webp"
+        else
+          dst_name = src_path.basename.to_s.gsub(SUFFIX_RE, 'webp')
+        end
         src_path.parent.join(dst_name)
       end
 

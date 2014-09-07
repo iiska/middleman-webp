@@ -3,7 +3,7 @@ require 'middleman-webp/pathname_matcher'
 module Middleman
   module WebP
     class Options
-      attr_reader :ignore, :verbose
+      attr_reader :ignore, :verbose, :append_extension
 
       def initialize(options = {})
         @ignore = options[:ignore] || []
@@ -18,6 +18,8 @@ module Middleman
         end
 
         @verbose = options[:verbose] || false
+
+        @append_extension = options[:append_extension] || false
       end
 
       # Internal: Generate command line args for cwebp or gif2webp command
