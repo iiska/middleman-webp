@@ -20,7 +20,7 @@ module Middleman
         @verbose = options[:verbose] || false
 
         @append_extension = options[:append_extension] || false
-        @allow_skip = options[:allow_skip] || false
+        @allow_skip = !(false == options[:allow_skip])
       end
 
       # Internal: Generate command line args for cwebp or gif2webp command

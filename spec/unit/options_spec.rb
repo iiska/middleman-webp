@@ -4,14 +4,14 @@ require_relative '../../lib/middleman-webp/options'
 
 describe Middleman::WebP::Options do
   describe '#allow_skip' do
-    it "should default to false" do
+    it "should default to true" do
       options = Middleman::WebP::Options.new
-      options.allow_skip.must_equal(false)
+      options.allow_skip.must_equal(true)
     end
     
     it "should allow setting to true" do
-      options = Middleman::WebP::Options.new(allow_skip: true)
-      options.allow_skip.must_equal(true)
+      options = Middleman::WebP::Options.new(allow_skip: false)
+      options.allow_skip.must_equal(false)
     end
   end
   
