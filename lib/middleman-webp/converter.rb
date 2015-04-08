@@ -15,7 +15,9 @@ module Middleman
         @original_size = 0
         @converted_size = 0
         convert_images(image_files) do |src, dst|
-          next reject_file(dst) if dst.size >= src.size
+          if !!@options.allow_skip && dst.size >= src.size
+            next reject_file(dst)
+          end
 
           @original_size += src.size
           @converted_size += dst.size

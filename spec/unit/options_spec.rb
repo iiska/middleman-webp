@@ -3,6 +3,18 @@ require 'pathname'
 require_relative '../../lib/middleman-webp/options'
 
 describe Middleman::WebP::Options do
+  describe '#allow_skip' do
+    it "should default to false" do
+      options = Middleman::WebP::Options.new
+      options.allow_skip.must_equal(false)
+    end
+    
+    it "should allow setting to true" do
+      options = Middleman::WebP::Options.new(allow_skip: true)
+      options.allow_skip.must_equal(true)
+    end
+  end
+  
   describe '#for' do
     it 'returns cwebp args when given file matches option file pattern glob' do
       path = Pathname.new('test_image.jpg')

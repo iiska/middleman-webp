@@ -12,6 +12,7 @@ module Middleman
     option(:ignore, [], 'Ignores files with matching paths')
     option(:verbose, false, 'Display all external command which are executed '\
            'to help debugging.')
+    option(:allow_skip, true, 'Skip saving .webp files which are larger than their source')
 
     def initialize(app, options_hash = {}, &block)
       super
