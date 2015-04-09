@@ -91,6 +91,19 @@ activate :webp do |webp|
 end
 ```
 
+### Forcing generation of .webp files even if they are larger
+
+By default Middleman::WebP will only keep .webp versions if they are smaller
+than original ones.
+
+If you want avoid this behavior and always save .webp version even if they are
+larger, disable allow_skip option.
+
+``` ruby
+activate :webp do |webp|
+  webp.allow_skip = false
+end
+```
 
 ## Configuring your site to provide WebP alternatives
 
@@ -112,3 +125,4 @@ Look for [this example how to do it in .htaccess][htaccess].
 ## Contributors
 
 - [Johannes Schleifenbaum](https://github.com/jojosch)
+- [Ryan Townsend](https://github.com/ryantownsend)
