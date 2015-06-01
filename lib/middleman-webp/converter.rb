@@ -90,7 +90,8 @@ module Middleman
       end
 
       def image_files
-        all = ::Middleman::Util.all_files_under(@app.inst.build_dir)
+        app_dir = @app.inst.send(@options.run_before_build ? :source_dir : :build_dir)
+        all = ::Middleman::Util.all_files_under(app_dir)
         images = all.select { |p| p.to_s =~ SUFFIX_RE }
 
         # Reject files matching possible ignore patterns
