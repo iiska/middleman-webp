@@ -48,6 +48,8 @@ And activate :webp extension in your config.rb:
 activate :webp
 ```
 
+## Options
+
 ### Custom conversion options
 
 Options for conversion are defined using
@@ -101,6 +103,30 @@ larger, disable allow_skip option.
 
 ``` ruby
 activate :webp do |webp|
+  webp.allow_skip = false
+end
+```
+
+### Working with asset_hash core extension
+
+When you use [asset_hash extension](https://middlemanapp.com/advanced/improving_cacheability/)
+you may want to change whether WebP image are converted before or after
+Middleman build, dependin on how you plan to serve/download them.
+
+Default behaviour is to generate WebP images after build, which will create
+identical filenames with different extension, preserving the original
+asset_cache hash. This works well if you are going to replace request content
+based on Accepts header while serving image files by [configuring .htaccess or something similar](#configuring-your-site-to-provide-webp-alternatives).
+
+However if you are going to determine used file type on client side and want to
+use [asset helpers](https://middlemanapp.com/basics/helper_methods/), it would
+be good idea to generate WebP versions before build allowing them to have their
+own asset hashes. In this case you probably want to generate WebP versions
+always even if they end up to be same size or larger than originals.
+
+``` ruby
+activate :webp do |webp|
+  webp.run_before_build = true
   webp.allow_skip = false
 end
 ```
