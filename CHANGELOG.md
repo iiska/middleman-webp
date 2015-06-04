@@ -1,3 +1,8 @@
+## 0.3.0
+
+- Add new option: run_before_build with default value false (ie. default
+  behaviour will stay unchanged)
+
 ## 0.2.5
 
 - Fixes regression bug with extension config options
