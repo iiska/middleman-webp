@@ -11,6 +11,7 @@ describe Middleman::WebPExtension do
                       initialized: '',
                       instance_available: true,
                       after_configuration: nil,
+                      before_build: nil,
                       after_build: nil
                     })
     @extension = Middleman::WebPExtension.new(app_mock)

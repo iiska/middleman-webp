@@ -13,13 +13,21 @@ module Middleman
     option(:verbose, false, 'Display all external command which are executed '\
            'to help debugging.')
     option(:allow_skip, true, 'Skip saving .webp files which are larger than their source')
+    option(:run_before_build, false, 'Run before build and save .webp files in source dir')
 
     def initialize(app, options_hash = {}, &block)
       super
       @app = app
     end
 
+    def before_build(builder)
+      return unless options[:run_before_build]
+      return unless dependencies_installed?(builder)
+      Middleman::WebP::Converter.new(@app, options, builder).convert
+    end
+
     def after_build(builder)
+      return if options[:run_before_build]
       return unless dependencies_installed?(builder)
       Middleman::WebP::Converter.new(@app, options, builder).convert
     end
