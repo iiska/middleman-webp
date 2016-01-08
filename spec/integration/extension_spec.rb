@@ -1,13 +1,14 @@
 require 'spec_helper'
+require 'middleman-core'
 require 'middleman-core/cli'
 require_relative '../../lib/middleman-webp/extension'
 
 describe Middleman::WebPExtension do
   before do
     @builder = Middleman::Cli::Build.new
-    @builder.stubs(:say_status).with do |action, msg, opts|
-      action == :webp and msg =~ /Please install latest version of webp/
-    end
+    #@builder.stubs(:thor).with do |action, msg, opts|
+    #  action == :webp and msg =~ /Please install latest version of webp/
+    #end
   end
 
   after do
@@ -21,27 +22,31 @@ describe Middleman::WebPExtension do
   end
 
   describe '#before_build' do
-    it 'does not generate WebP versions using external tools' do
+    it 'does not generate WebP versions by default' do
       app_mock = stub({
                         initialized: '',
                         instance_available: true,
                         after_configuration: nil,
                         before_build: nil,
                         after_build: nil,
-                        inst: stub(source_dir: 'spec/fixtures/ok-source')
+                        root: '.',
+                        config: {source: 'spec/fixtures/ok-source'}
                       })
 
-      @builder.expects(:say_status).never.with do |action, msg, opts|
-        action == :webp and msg =~ /Total conversion savings/
-      end
+      Middleman::WebP::Logger.any_instance.expects(:info).never
+        .with do |msg, color|
+          msg =~ /Total conversion savings/
+        end
 
-      @builder.expects(:say_status).never.with do |action, msg, opts|
-        action == :run and msg =~ /cwebp/
-      end
+      Middleman::WebP::Logger.any_instance.expects(:info).never
+        .with do |msg|
+          msg =~ /cwebp/
+        end
 
-      @builder.expects(:say_status).never.with do |action, msg, opts|
-        action == :webp and msg =~ /\.webp \([0-9.]+ % smaller\)/
-      end
+      Middleman::WebP::Logger.any_instance.expects(:info).never
+        .with do |msg|
+          msg =~ /\.webp \([0-9.]+ % smaller\)/
+        end
 
       @extension = Middleman::WebPExtension.new(app_mock)
       @extension.before_build(@builder)
@@ -56,19 +61,17 @@ describe Middleman::WebPExtension do
                         after_configuration: nil,
                         before_build: nil,
                         after_build: nil,
-                        inst: stub(source_dir: 'spec/fixtures/ok-source')
+                        verbose: true,
+                        root: '.',
+                        config: {source: 'spec/fixtures/ok-source'}
                       })
 
-      @builder.expects(:say_status).once.with do |action, msg, opts|
-        action == :webp and msg =~ /Total conversion savings/
+      Middleman::WebP::Logger.any_instance.expects(:info).once.with do |msg, c|
+        msg =~ /Total conversion savings/
       end
 
-      @builder.expects(:say_status).twice.with do |action, msg, opts|
-        action == :run and msg =~ /cwebp/
-      end
-
-      @builder.expects(:say_status).twice.with do |action, msg, opts|
-        action == :webp and msg =~ /\.webp \([0-9.]+ % smaller\)/
+      Middleman::WebP::Logger.any_instance.expects(:info).twice.with do |msg|
+        msg =~ /\.webp \([0-9.]+ % smaller\)/
       end
 
       @extension = Middleman::WebPExtension.new(app_mock) do |webp|
@@ -82,8 +85,8 @@ describe Middleman::WebPExtension do
 
   describe '#after_build' do
     before do
-      @builder.expects(:say_status).once.with do |action, msg, opts|
-          action == :webp and msg =~ /Total conversion savings/
+      Middleman::WebP::Logger.any_instance.expects(:info).once.with do |msg|
+          msg =~ /Total conversion savings/
         end
     end
 
@@ -94,15 +97,12 @@ describe Middleman::WebPExtension do
                         after_configuration: nil,
                         before_build: nil,
                         after_build: nil,
-                        inst: stub(build_dir: 'spec/fixtures/ok-build')
+                        root: '.',
+                        config: {build_dir: 'spec/fixtures/ok-build'}
                       })
 
-      @builder.expects(:say_status).twice.with do |action, msg, opts|
-        action == :run and msg =~ /cwebp/
-      end
-
-      @builder.expects(:say_status).twice.with do |action, msg, opts|
-        action == :webp and msg =~ /\.webp \([0-9.]+ % smaller\)/
+      Middleman::WebP::Logger.any_instance.expects(:info).twice.with do |msg|
+        msg =~ /\.webp \([0-9.]+ % smaller\)/
       end
 
       @extension = Middleman::WebPExtension.new(app_mock)
@@ -118,13 +118,14 @@ describe Middleman::WebPExtension do
                         after_configuration: nil,
                         before_build: nil,
                         after_build: nil,
-                        inst: stub(build_dir: 'spec/fixtures/dummy-build')
+                        root: '.',
+                        config: {build_dir: 'spec/fixtures/dummy-build'}
                       })
 
       Middleman::WebP::Converter.any_instance.
         expects(:exec_convert_tool).times(3)
 
-      @builder.expects(:say_status).times(3).with do |action, msg, opts|
+      Middleman::WebP::Logger.any_instance.expects(:error).times(3).with do |msg|
         msg =~ /Converting .*empty\.(jpg|gif|png) failed/
       end
 
@@ -139,7 +140,8 @@ describe Middleman::WebPExtension do
                         after_configuration: nil,
                         before_build: nil,
                         after_build: nil,
-                        inst: stub(build_dir: 'spec/fixtures/dummy-build')
+                        root: '.',
+                        config: {build_dir: 'spec/fixtures/dummy-build'}
                       })
 
       Middleman::WebP::Converter.any_instance.
@@ -154,9 +156,8 @@ describe Middleman::WebPExtension do
         end
       end
 
-      @builder.expects(:say_status).times(3).with do |action, msg, opts|
-        action == :webp and msg =~ /.*empty.webp skipped/
-      end
+      Middleman::WebP::Logger.any_instance.expects(:info).times(3)
+        .with { |msg| msg =~ /.*empty.webp skipped/ }.returns(nil)
 
       @extension = Middleman::WebPExtension.new(app_mock)
       @extension.after_build(@builder)

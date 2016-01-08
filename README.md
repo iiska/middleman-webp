@@ -38,6 +38,11 @@ Add this line to your Middleman site's Gemfile:
 
     gem 'middleman-webp'
 
+You are not able to use latest gem version if you are using **Middleman 3**. In
+that case install gem with following Gemfile statement:
+
+    gem 'middleman-webp', '~> 0.3.2'
+
 And then execute:
 
     $ bundle
