@@ -5,15 +5,17 @@ module Middleman
     class Converter
       SUFFIX_RE = /(jpe?g|png|tiff?|gif)$/i
 
-      def initialize(app, options = {}, builder)
+      def initialize(app, options = {}, builder, logger)
         @app = app
         @options = Middleman::WebP::Options.new(options)
         @builder = builder
+        @log = logger
       end
 
       def convert
         @original_size = 0
         @converted_size = 0
+
         convert_images(image_files) do |src, dst|
           if !!@options.allow_skip && dst.size >= src.size
             next reject_file(dst)
@@ -21,8 +23,8 @@ module Middleman
 
           @original_size += src.size
           @converted_size += dst.size
-          @builder.say_status :webp, "#{dst.path} "\
-          "(#{change_percentage(src.size, dst.size)} smaller)"
+          @log.info "#{dst.path} "\
+            "(#{change_percentage(src.size, dst.size)} smaller)"
         end
         print_summary
       end
@@ -32,16 +34,17 @@ module Middleman
           begin
             dst = destination_path(p)
             exec_convert_tool(p, dst)
-            yield File.new(p), File.new(dst)
-          rescue
-            @builder.say_status :webp, "Converting #{p} failed", :red
+            yield File.new(p), File.new(dst.to_s)
+          rescue StandardError => e
+            @log.error "Converting #{p} failed"
+            @log.debug e.to_s
           end
         end
       end
 
       def exec_convert_tool(src, dst)
         cmd = "#{tool_for(src)} #{@options.for(src)} -quiet #{src} -o #{dst}"
-        @builder.run cmd, verbose: @options.verbose, capture: true
+        @builder.run(cmd, verbose: @options.verbose, capture: true)
       end
 
       # Internal: Return proper tool command based on file type
@@ -52,13 +55,13 @@ module Middleman
       end
 
       def reject_file(file)
-        @builder.say_status :webp, "#{file.path} skipped", :yellow
+        @log.warn "#{file.path} skipped"
         File.unlink(file)
       end
 
       def print_summary
         savings = @original_size - @converted_size
-        @builder.say_status :webp, 'Total conversion savings: '\
+        @log.info 'Total conversion savings: '\
         "#{number_to_human_size(savings)} "\
         "(#{change_percentage(@original_size, @converted_size)})", :blue
       end
@@ -90,7 +93,12 @@ module Middleman
       end
 
       def image_files
-        app_dir = @app.inst.send(@options.run_before_build ? :source_dir : :build_dir)
+        if @options.run_before_build
+          app_dir = Pathname(File.join(@app.root, @app.config[:source]))
+        else
+          app_dir = Pathname(@app.config[:build_dir])
+        end
+
         all = ::Middleman::Util.all_files_under(app_dir)
         images = all.select { |p| p.to_s =~ SUFFIX_RE }
 

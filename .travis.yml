@@ -1,10 +1,11 @@
+sudo: required
+dist: trusty
 language: ruby
 rvm:
   - 2.0.0
-  - 2.1.8
-  - 2.2.4
-  - 2.3.0
+  - 2.1.7
+  - 2.2.3
 script: bundle exec rake test
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install webp
+  - sudo apt-get install -y webp

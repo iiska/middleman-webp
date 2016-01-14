@@ -1,3 +1,10 @@
+
+## 0.4.0
+
+- Middleman 4.0.0 compatibility
+- *Breaks* Middleman 3.*.* support, use gem version 0.3.2 with older
+  Middleman versions
+
 ## 0.3.0
 
 - Add new option: run_before_build with default value false (ie. default
