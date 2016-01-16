@@ -1,14 +1,18 @@
 require 'spec_helper'
 require 'middleman-core'
 require 'middleman-core/cli'
+require 'thor'
 require_relative '../../lib/middleman-webp/extension'
+
+class MockBuilder
+  def thor
+    return Middleman::Cli::Build.new
+  end
+end
 
 describe Middleman::WebPExtension do
   before do
-    @builder = Middleman::Cli::Build.new
-    #@builder.stubs(:thor).with do |action, msg, opts|
-    #  action == :webp and msg =~ /Please install latest version of webp/
-    #end
+    @builder = MockBuilder.new
   end
 
   after do
@@ -63,7 +67,10 @@ describe Middleman::WebPExtension do
                         after_build: nil,
                         verbose: true,
                         root: '.',
-                        config: {source: 'spec/fixtures/ok-source'}
+                        config: {
+                          source: 'spec/fixtures/ok-source',
+                          build_dir: 'spec/fixtures/ok-build'
+                        }
                       })
 
       Middleman::WebP::Logger.any_instance.expects(:info).once.with do |msg, c|
@@ -98,7 +105,10 @@ describe Middleman::WebPExtension do
                         before_build: nil,
                         after_build: nil,
                         root: '.',
-                        config: {build_dir: 'spec/fixtures/ok-build'}
+                        config: {
+                          source: 'spec/fixtures/ok-source',
+                          build_dir: 'spec/fixtures/ok-build'
+                        }
                       })
 
       Middleman::WebP::Logger.any_instance.expects(:info).twice.with do |msg|

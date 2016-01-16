@@ -1,3 +1,6 @@
+## 0.4.1
+
+- Fix running external conversion tool
 
 ## 0.4.0
 
