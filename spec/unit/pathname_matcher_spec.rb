@@ -2,7 +2,6 @@ require 'spec_helper'
 require_relative '../../lib/middleman-webp/pathname_matcher'
 
 describe Middleman::WebP::PathnameMatcher do
-
   describe '#matches?' do
     it 'returns true when given file matches pattern' do
       patterns = ['**/*.jpg', /jpg$/, ->(path) { path.end_with?('jpg') }]
@@ -54,7 +53,5 @@ describe Middleman::WebP::PathnameMatcher do
     it 'handles nil path gracefully and returns false' do
       Middleman::WebP::PathnameMatcher.new('*.jpg').matches? nil
     end
-
   end
-
 end

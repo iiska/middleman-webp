@@ -2,17 +2,14 @@ require 'spec_helper'
 require_relative '../../lib/middleman-webp/extension'
 
 describe Middleman::WebPExtension do
-
   before do
-    app_mock = stub({
-                      initialized: '',
-                      instance_available: true,
-                      after_configuration: nil,
-                      before_build: nil,
-                      after_build: nil
-                    })
+    app_mock = stub(initialized: '',
+                    instance_available: true,
+                    after_configuration: nil,
+                    before_build: nil,
+                    after_build: nil)
     @extension = Middleman::WebPExtension.new(app_mock)
-    @extension.initialize_logger(stub(thor: {say_status: nil}))
+    @extension.initialize_logger(stub(thor: { say_status: nil }))
   end
 
   describe '#dependencies_installed?' do
@@ -39,5 +36,4 @@ describe Middleman::WebPExtension do
       @extension.dependencies_installed?.must_equal true
     end
   end
-
 end

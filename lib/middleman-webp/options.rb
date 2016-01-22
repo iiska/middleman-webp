@@ -30,7 +30,7 @@ module Middleman
       # glob pattern matches file path and uses the one with longest
       # glob, because it's assumed to be the most precise one.
       def for(file)
-        matching = @conversion.select { |m, o| m.matches? file }
+        matching = @conversion.select { |m, _o| m.matches? file }
 
         return '' if matching.empty?
 

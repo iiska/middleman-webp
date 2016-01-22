@@ -5,7 +5,7 @@ require_relative '../../lib/middleman-webp/converter'
 
 describe Middleman::WebP::Converter do
   before do
-    @app_mock = stub(config: {build_dir: 'spec/fixtures/dummy-build'})
+    @app_mock = stub(config: { build_dir: 'spec/fixtures/dummy-build' })
     @converter = Middleman::WebP::Converter.new(@app_mock, {}, nil)
   end
 
@@ -18,7 +18,7 @@ describe Middleman::WebP::Converter do
 
   describe '#destination_path with append_extension = true' do
     before do
-      @converter = Middleman::WebP::Converter.new(@app_mock, {append_extension: true}, nil, nil)
+      @converter = Middleman::WebP::Converter.new(@app_mock, { append_extension: true }, nil, nil)
     end
 
     it 'returns file name with same basename and webp suffix' do
