@@ -1,5 +1,4 @@
 require 'middleman-core'
-require 'middleman-webp/logger'
 require 'middleman-webp/converter'
 
 require 'shell'
@@ -24,43 +23,40 @@ module Middleman
     def before_build(builder)
       return unless options[:run_before_build]
 
-      initialize_logger builder
-      return unless dependencies_installed?
-      Middleman::WebP::Converter.new(@app, options, builder, @logger).convert
+      return unless dependencies_installed?(builder)
+      Middleman::WebP::Converter.new(@app, options, builder).convert
     end
 
     def after_build(builder)
       return if options[:run_before_build]
 
-      initialize_logger builder
-      return unless dependencies_installed?
-      Middleman::WebP::Converter.new(@app, options, builder, @logger).convert
+      return unless dependencies_installed? builder
+      Middleman::WebP::Converter.new(@app, options, builder).convert
     end
 
     # Internal: Check that cwebp and gif2webp commandline tools are available.
     #
     # Returns true if all is OK.
-    def dependencies_installed?
-      warn_if_gif2webp_missing
-      cwebp_installed?
-    end
-
-    def initialize_logger(builder)
-      @logger = Middleman::WebP::Logger.new(builder, verbose: @options.verbose)
+    def dependencies_installed?(builder)
+      warn_if_gif2webp_missing builder
+      cwebp_installed? builder
     end
 
     private
 
-    def warn_if_gif2webp_missing
+    def warn_if_gif2webp_missing(builder)
       Shell.new.find_system_command('gif2webp')
     rescue Shell::Error::CommandNotFound => e
-      @logger.error "#{e.message} Please install latest version of webp library and tools to get gif2webp and be able to convert gif files also."
+      builder.trigger :webp, nil, "#{e.message} Please install latest version"\
+        " of webp library and tools to get gif2webp and be able to convert gif"\
+        "files also."
     end
 
-    def cwebp_installed?
+    def cwebp_installed?(builder)
       true if Shell.new.find_system_command('cwebp')
     rescue Shell::Error::CommandNotFound => e
-      @logger.error "ERROR: #{e.message} Please install cwebp and gif2webp commandline tools first."
+      builder.trigger :error, "ERROR: #{e.message} Please install cwebp and "\
+        "gif2webp commandline tools first."
       false
     end
   end

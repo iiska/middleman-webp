@@ -5,7 +5,7 @@ module Middleman
     class Converter
       SUFFIX_RE = /(jpe?g|png|tiff?|gif)$/i
 
-      def initialize(app, options = {}, builder, _logger)
+      def initialize(app, options = {}, builder)
         @app = app
         @options = Middleman::WebP::Options.new(options)
         @builder = builder
