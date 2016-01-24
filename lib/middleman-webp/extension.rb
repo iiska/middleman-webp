@@ -29,17 +29,17 @@ module Middleman
     end
 
     def before_build(builder)
-      return unless options[:run_before_build]
+      return unless options.run_before_build
 
       return unless dependencies_installed?(builder)
-      Middleman::WebP::Converter.new(@app, options, builder).convert
+      Middleman::WebP::Converter.new(@app, builder, options).convert
     end
 
     def after_build(builder)
-      return if options[:run_before_build]
+      return if options.run_before_build
 
       return unless dependencies_installed? builder
-      Middleman::WebP::Converter.new(@app, options, builder).convert
+      Middleman::WebP::Converter.new(@app, builder, options).convert
     end
 
     # Internal: Check that cwebp and gif2webp commandline tools are available.

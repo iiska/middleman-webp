@@ -3,7 +3,8 @@ require 'middleman-webp/pathname_matcher'
 module Middleman
   module WebP
     class Options
-      attr_reader :ignore, :verbose, :append_extension, :allow_skip, :run_before_build
+      attr_reader :ignore, :verbose, :append_extension, :allow_skip,
+        :run_before_build
 
       def initialize(options = {})
         @ignore = options[:ignore] || []

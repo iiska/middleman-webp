@@ -2,10 +2,13 @@ require 'middleman-webp/options'
 
 module Middleman
   module WebP
+    ##
+    # Handles finding image assets and running them through the conversion using
+    # external cwebp and gif2webp commandline tools
     class Converter
       SUFFIX_RE = /(jpe?g|png|tiff?|gif)$/i
 
-      def initialize(app, options = {}, builder)
+      def initialize(app, builder, options = {})
         @app = app
         @options = Middleman::WebP::Options.new(options)
         @builder = builder
@@ -16,7 +19,7 @@ module Middleman
         @converted_size = 0
 
         convert_images(image_files) do |src, dst|
-          next reject_file(dst) if !!@options.allow_skip && dst.size >= src.size
+          next reject_file(dst) if @options.allow_skip && dst.size >= src.size
 
           @original_size += src.size
           @converted_size += dst.size
@@ -84,18 +87,12 @@ module Middleman
                      "#{src_path.basename}.webp"
                    else
                      src_path.basename.to_s.gsub(SUFFIX_RE, 'webp')
-        end
+                   end
         src_path.parent.join(dst_name)
       end
 
       def image_files
-        app_dir = if @options.run_before_build
-                    Pathname(File.join(@app.root, @app.config[:source]))
-                  else
-                    Pathname(@app.config[:build_dir])
-        end
-
-        all = ::Middleman::Util.all_files_under(app_dir)
+        all = ::Middleman::Util.all_files_under(site_dir)
         images = all.select { |p| p.to_s =~ SUFFIX_RE }
 
         # Reject files matching possible ignore patterns
@@ -122,6 +119,16 @@ module Middleman
         exponent = (Math.log(n) / Math.log(1024)).to_i
         format("%g #{units[exponent]}",
                format('%.2f', n.to_f / 1024**exponent))
+      end
+
+      private
+
+      def site_dir
+        if @options.run_before_build
+          Pathname(File.join(@app.root, @app.config[:source]))
+        else
+          Pathname(@app.config[:build_dir])
+        end
       end
     end
   end

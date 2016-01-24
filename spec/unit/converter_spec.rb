@@ -6,7 +6,7 @@ require_relative '../../lib/middleman-webp/converter'
 describe Middleman::WebP::Converter do
   before do
     @app_mock = stub(config: { build_dir: 'spec/fixtures/dummy-build' })
-    @converter = Middleman::WebP::Converter.new(@app_mock, {}, nil)
+    @converter = Middleman::WebP::Converter.new @app_mock, nil
   end
 
   describe '#destination_path' do
@@ -18,7 +18,8 @@ describe Middleman::WebP::Converter do
 
   describe '#destination_path with append_extension = true' do
     before do
-      @converter = Middleman::WebP::Converter.new(@app_mock, { append_extension: true }, nil)
+      @converter = Middleman::WebP::Converter.new @app_mock, nil,
+                                                  append_extension: true
     end
 
     it 'returns file name with same basename and webp suffix' do
@@ -72,9 +73,8 @@ describe Middleman::WebP::Converter do
     end
 
     it 'won\'t include ignored files' do
-      @converter = Middleman::WebP::Converter.new(@app_mock, {
-                                                    ignore: [/jpg$/, '**/*.gif']
-                                                  }, nil)
+      @converter = Middleman::WebP::Converter.new @app_mock, nil,
+                                                  ignore: [/jpg$/, '**/*.gif']
 
       files_to_include = [Pathname('spec/fixtures/dummy-build/empty.png')]
       @converter.image_files.must_equal files_to_include
@@ -84,7 +84,7 @@ describe Middleman::WebP::Converter do
       options = {
         ignore: ->(path) { path.end_with? 'jpg' }
       }
-      @converter = Middleman::WebP::Converter.new(@app_mock, options, nil)
+      @converter = Middleman::WebP::Converter.new @app_mock, nil, options
 
       @converter.image_files.size.must_equal 2
     end
