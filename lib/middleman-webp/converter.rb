@@ -60,7 +60,7 @@ module Middleman
 
       def print_summary
         savings = @original_size - @converted_size
-        @builder.trigger :webp, nil, 'Total conversion savings: '\
+        @builder.trigger :webp, '', 'Total conversion savings: '\
           "#{number_to_human_size(savings)} "\
           "(#{change_percentage(@original_size, @converted_size)})"
       end
