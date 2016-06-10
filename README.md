@@ -158,3 +158,4 @@ Look for [this example how to do it in .htaccess][htaccess].
 - [Johannes Schleifenbaum](https://github.com/jojosch)
 - [Ryan Townsend](https://github.com/ryantownsend)
 - [François VANTOMME](https://github.com/akarzim)
+- [Novtopro He](https://github.com/Novtopro)
