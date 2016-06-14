@@ -55,7 +55,7 @@ module Middleman
     def warn_if_gif2webp_missing(builder)
       Shell.new.find_system_command('gif2webp')
     rescue Shell::Error::CommandNotFound => e
-      builder.trigger :webp, nil, "#{e.message} Please install latest version"\
+      builder.trigger :webp, '', "#{e.message} Please install latest version"\
         ' of webp library and tools to get gif2webp and be able to convert gif'\
         'files also.'
     end
