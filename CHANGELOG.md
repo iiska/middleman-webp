@@ -2,6 +2,7 @@
 
 - Contact violation fixes from
   [PR #15](https://github.com/iiska/middleman-webp/pull/15)
+- *Breaks* Drop support for MRI Ruby 2.0.0
 
 ## 0.4.1
 
