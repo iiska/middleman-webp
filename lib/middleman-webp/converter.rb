@@ -113,7 +113,7 @@ module Middleman
       #
       # Returns string containing size and unit.
       def number_to_human_size(n)
-        return '0 B' if n == 0
+        return "#{n} B" if n <= 0
 
         units = %w(B KiB MiB GiB TiB PiB)
         exponent = (Math.log(n) / Math.log(1024)).to_i
