@@ -1,6 +1,11 @@
+## Unreleased
+
+- Add support for Ruby 2.7, 3,0, 3.1, 3.2
+- *Breaks* Drop support for Ruby 2.4
+
 ## 0.4.3
 
-- Contact violation fixes from
+- Contract violation fixes from
   [PR #15](https://github.com/iiska/middleman-webp/pull/15)
 - *Breaks* Drop support for MRI Ruby 2.0.0
 
