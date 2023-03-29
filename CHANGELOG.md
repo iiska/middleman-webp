@@ -1,4 +1,4 @@
-## Unreleased
+## 1.0.0
 
 - Add support for Ruby 2.7, 3,0, 3.1, 3.2
 - *Breaks* Drop support for Ruby 2.4
