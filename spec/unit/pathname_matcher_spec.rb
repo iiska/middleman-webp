@@ -14,7 +14,7 @@ describe Middleman::WebP::PathnameMatcher do
       patterns.each do |p|
         matcher = Middleman::WebP::PathnameMatcher.new(p)
         files.each do |f|
-          matcher.matches?(f).must_equal true, "Pattern: #{p.inspect}, "\
+          value(matcher.matches?(f)).must_equal true, "Pattern: #{p.inspect}, "\
           "file: #{f.inspect}"
         end
       end
@@ -31,7 +31,7 @@ describe Middleman::WebP::PathnameMatcher do
       patterns.each do |p|
         matcher = Middleman::WebP::PathnameMatcher.new(p)
         files.each do |f|
-          matcher.matches?(f).must_equal false, "Pattern: #{p.inspect}, "\
+          value(matcher.matches?(f)).must_equal false, "Pattern: #{p.inspect}, "\
           "file: #{f.inspect}"
         end
       end
@@ -46,7 +46,7 @@ describe Middleman::WebP::PathnameMatcher do
 
       matcher = Middleman::WebP::PathnameMatcher.new
       paths.each do |p|
-        matcher.matches?(p).must_equal true
+        value(matcher.matches?(p)).must_equal true
       end
     end
 

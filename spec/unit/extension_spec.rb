@@ -17,7 +17,7 @@ describe Middleman::WebPExtension do
       Shell.any_instance.expects(:find_system_command).with('cwebp').returns('/usr/bin/cwebp')
       Shell.any_instance.expects(:find_system_command).with('gif2webp').returns('/usr/bin/gif2webp')
 
-      @extension.dependencies_installed?(@builder_mock).must_equal true
+      value(@extension.dependencies_installed?(@builder_mock)).must_equal true
     end
 
     it 'returns false and displays error if cwebp is missing' do
@@ -27,7 +27,7 @@ describe Middleman::WebPExtension do
       @builder_mock.expects(:trigger).once.with do |event|
         event == :error
       end
-      @extension.dependencies_installed?(@builder_mock).must_equal false
+      value(@extension.dependencies_installed?(@builder_mock)).must_equal false
     end
 
     it 'displays error if only gif2webp is missing and returns still true' do
@@ -37,7 +37,7 @@ describe Middleman::WebPExtension do
       @builder_mock.expects(:trigger).once.with do |event, _target, msg|
         event == :webp && msg =~ /gif2webp/
       end
-      @extension.dependencies_installed?(@builder_mock).must_equal true
+      value(@extension.dependencies_installed?(@builder_mock)).must_equal true
     end
   end
 end
