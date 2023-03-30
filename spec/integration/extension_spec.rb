@@ -36,7 +36,7 @@ describe Middleman::WebPExtension do
       @extension = Middleman::WebPExtension.new(app_mock)
       @extension.before_build(@builder)
 
-      Dir.glob('spec/fixtures/ok-source/**/*.webp').size.must_equal 0
+      value(Dir.glob('spec/fixtures/ok-source/**/*.webp').size).must_equal 0
     end
 
     it 'generates WebP versions using external tools when option is set' do
@@ -65,7 +65,7 @@ describe Middleman::WebPExtension do
       end
       @extension.before_build(@builder)
 
-      Dir.glob('spec/fixtures/ok-source/**/*.webp').size.must_equal 2
+      value(Dir.glob('spec/fixtures/ok-source/**/*.webp').size).must_equal 2
     end
   end
 
@@ -95,7 +95,7 @@ describe Middleman::WebPExtension do
       @extension = Middleman::WebPExtension.new(app_mock)
       @extension.after_build(@builder)
 
-      Dir.glob('spec/fixtures/ok-build/**/*.webp').size.must_equal 2
+      value(Dir.glob('spec/fixtures/ok-build/**/*.webp').size).must_equal 2
     end
 
     it 'shows errors if files couldn\'t be converted' do
@@ -146,7 +146,7 @@ describe Middleman::WebPExtension do
       @extension = Middleman::WebPExtension.new(app_mock)
       @extension.after_build(@builder)
 
-      Dir.glob('spec/fixtures/dummy-build/**/*.webp').size.must_equal 0
+      value(Dir.glob('spec/fixtures/dummy-build/**/*.webp').size).must_equal 0
     end
   end
 end
