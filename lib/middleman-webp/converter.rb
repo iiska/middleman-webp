@@ -31,13 +31,11 @@ module Middleman
 
       def convert_images(paths, &_after_conversion)
         paths.each do |p|
-          begin
-            dst = destination_path(p)
-            exec_convert_tool(p, dst)
-            yield File.new(p), File.new(dst.to_s)
-          rescue => e
-            @builder.trigger :error, "Converting #{p} failed", e.backtrace
-          end
+          dst = destination_path(p)
+          exec_convert_tool(p, dst)
+          yield File.new(p), File.new(dst.to_s)
+        rescue => e
+          @builder.trigger :error, "Converting #{p} failed", e.backtrace
         end
       end
 
@@ -115,7 +113,7 @@ module Middleman
       def number_to_human_size(n)
         return "#{n} B" if n <= 0
 
-        units = %w(B KiB MiB GiB TiB PiB)
+        units = %w[B KiB MiB GiB TiB PiB]
         exponent = (Math.log(n) / Math.log(1024)).to_i
         format("%g #{units[exponent]}",
           format("%.2f", n.to_f / 1024**exponent))

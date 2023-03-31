@@ -13,9 +13,8 @@ module Middleman
         end
 
         @conversion = options[:conversion_options] || {}
-        @conversion = @conversion.reduce(Hash.new("")) do |h, (k, v)|
+        @conversion = @conversion.each_with_object(Hash.new("")) do |(k, v), h|
           h[Middleman::WebP::PathnameMatcher.new(k)] = to_args(v)
-          h
         end
 
         @verbose = options[:verbose] || false
