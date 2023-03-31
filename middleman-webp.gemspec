@@ -28,4 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   #spec.add_development_dependency "simplecov"
   spec.add_development_dependency "mocha"
+  spec.add_development_dependency "rubocop", "~> 1.49.0"
+  spec.add_development_dependency "standard", "~> 1.26.0"
+  spec.add_development_dependency "rubocop-rake", "~> 0.6.0"
 end
