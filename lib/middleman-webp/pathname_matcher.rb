@@ -8,7 +8,7 @@ module Middleman
       #
       # pattern - Pattern to match pathnames against to. May be
       #           string, glob, prog or regex.
-      def initialize(pattern = '**/*')
+      def initialize(pattern = "**/*")
         @pattern = pattern
       end
 

@@ -1,26 +1,26 @@
-require 'spec_helper'
-require 'pathname'
-require_relative '../../lib/middleman-webp/options'
+require "spec_helper"
+require "pathname"
+require_relative "../../lib/middleman-webp/options"
 
 describe Middleman::WebP::Options do
-  describe '#allow_skip' do
-    it 'should default to true' do
+  describe "#allow_skip" do
+    it "should default to true" do
       options = Middleman::WebP::Options.new
       value(options.allow_skip).must_equal(true)
     end
 
-    it 'should allow setting to true' do
+    it "should allow setting to true" do
       options = Middleman::WebP::Options.new(allow_skip: false)
       value(options.allow_skip).must_equal(false)
     end
   end
 
-  describe '#for' do
-    it 'returns cwebp args when given file matches option file pattern glob' do
-      path = Pathname.new('test_image.jpg')
+  describe "#for" do
+    it "returns cwebp args when given file matches option file pattern glob" do
+      path = Pathname.new("test_image.jpg")
       options_hash = {
         conversion_options: {
-          '*.jpg' => {
+          "*.jpg" => {
             lossless: true,
             q: 85
           }
@@ -32,16 +32,16 @@ describe Middleman::WebP::Options do
       value(args).must_match(/^(-q 85|-lossless) (-q 85|-lossless)$/)
     end
 
-    it 'returns empty string when no options are defined' do
-      path = Pathname.new('test_image.jpg')
+    it "returns empty string when no options are defined" do
+      path = Pathname.new("test_image.jpg")
       options = Middleman::WebP::Options.new
 
       args = options.for(path)
       value(args).must_be_empty
     end
 
-    it 'returns cwebp args when given file matches option pattern regexp' do
-      path = Pathname.new('test_image.jpg')
+    it "returns cwebp args when given file matches option pattern regexp" do
+      path = Pathname.new("test_image.jpg")
       options_hash = {
         conversion_options: {
           /jpg$/ => {
@@ -55,14 +55,14 @@ describe Middleman::WebP::Options do
       value(args).must_match(/^-q 85$/)
     end
 
-    it 'selects most precise file pattern to get file specific option overrides correctly' do
-      path = Pathname.new('lizard.jpg')
+    it "selects most precise file pattern to get file specific option overrides correctly" do
+      path = Pathname.new("lizard.jpg")
       options_hash = {
         conversion_options: {
-          '*.jpg' => {
+          "*.jpg" => {
             q: 85
           },
-          'lizard.jpg' => {
+          "lizard.jpg" => {
             q: 100
           }
         }

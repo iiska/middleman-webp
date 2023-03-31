@@ -4,18 +4,17 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'middleman-webp/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "middleman-webp"
-  spec.version       = Middleman::Webp::VERSION
-  spec.authors       = ["Juhamatti Niemelä"]
-  spec.email         = ["iiska@iki.fi"]
-  spec.summary       = %q{WebP image conversion for Middleman}
-  spec.description   = %q{Generate WebP versions of each image used in Middleman site during build.}
-  spec.homepage      = "https://github.com/iiska/middleman-webp"
-  spec.license       = "MIT"
+  spec.name = "middleman-webp"
+  spec.version = Middleman::Webp::VERSION
+  spec.authors = ["Juhamatti Niemelä"]
+  spec.email = ["iiska@iki.fi"]
+  spec.summary = %q{WebP image conversion for Middleman}
+  spec.description = %q{Generate WebP versions of each image used in Middleman site during build.}
+  spec.homepage = "https://github.com/iiska/middleman-webp"
+  spec.license = "MIT"
 
-  spec.files         = `git ls-files`.split($/)
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.files = `git ls-files`.split($/)
+  spec.executables = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
   spec.required_ruby_version = ">= 2.5.0"

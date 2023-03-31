@@ -1,4 +1,4 @@
-require 'middleman-webp/pathname_matcher'
+require "middleman-webp/pathname_matcher"
 
 module Middleman
   module WebP
@@ -13,7 +13,7 @@ module Middleman
         end
 
         @conversion = options[:conversion_options] || {}
-        @conversion = @conversion.reduce(Hash.new('')) do |h, (k, v)|
+        @conversion = @conversion.reduce(Hash.new("")) do |h, (k, v)|
           h[Middleman::WebP::PathnameMatcher.new(k)] = to_args(v)
           h
         end
@@ -33,7 +33,7 @@ module Middleman
       def for(file)
         matching = @conversion.select { |m, _o| m.matches? file }
 
-        return '' if matching.empty?
+        return "" if matching.empty?
 
         matching.max_by { |(pathname_matcher, _oa)| pathname_matcher }[1]
       end
@@ -47,7 +47,7 @@ module Middleman
           elsif v != false
             "-#{k} #{v}"
           end
-        end.join(' ').gsub(/ +/, ' ')
+        end.join(" ").squeeze(" ")
       end
     end
   end

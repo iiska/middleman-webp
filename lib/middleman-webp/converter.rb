@@ -1,4 +1,4 @@
-require 'middleman-webp/options'
+require "middleman-webp/options"
 
 module Middleman
   module WebP
@@ -23,7 +23,7 @@ module Middleman
 
           @original_size += src.size
           @converted_size += dst.size
-          @builder.trigger :created, "#{dst.path} "\
+          @builder.trigger :created, "#{dst.path} " \
             "(#{change_percentage(src.size, dst.size)} smaller)"
         end
         print_summary
@@ -35,7 +35,7 @@ module Middleman
             dst = destination_path(p)
             exec_convert_tool(p, dst)
             yield File.new(p), File.new(dst.to_s)
-          rescue StandardError => e
+          rescue => e
             @builder.trigger :error, "Converting #{p} failed", e.backtrace
           end
         end
@@ -50,7 +50,7 @@ module Middleman
       #
       # file - Filename
       def tool_for(file)
-        file.to_s =~ /gif$/i ? 'gif2webp' : 'cwebp'
+        /gif$/i.match?(file.to_s) ? "gif2webp" : "cwebp"
       end
 
       def reject_file(file)
@@ -60,8 +60,8 @@ module Middleman
 
       def print_summary
         savings = @original_size - @converted_size
-        @builder.trigger :webp, '', 'Total conversion savings: '\
-          "#{number_to_human_size(savings)} "\
+        @builder.trigger :webp, "", "Total conversion savings: " \
+          "#{number_to_human_size(savings)} " \
           "(#{change_percentage(@original_size, @converted_size)})"
       end
 
@@ -77,17 +77,17 @@ module Middleman
       #
       # Returns percentage as string.
       def change_percentage(src_size, dst_size)
-        return '0 %' if src_size == 0
+        return "0 %" if src_size == 0
 
-        format('%g %%', format('%.2f', 100 - 100.0 * dst_size / src_size))
+        format("%g %%", format("%.2f", 100 - 100.0 * dst_size / src_size))
       end
 
       def destination_path(src_path)
         dst_name = if @options.append_extension
-                     "#{src_path.basename}.webp"
-                   else
-                     src_path.basename.to_s.gsub(SUFFIX_RE, 'webp')
-                   end
+          "#{src_path.basename}.webp"
+        else
+          src_path.basename.to_s.gsub(SUFFIX_RE, "webp")
+        end
         src_path.parent.join(dst_name)
       end
 
@@ -118,7 +118,7 @@ module Middleman
         units = %w(B KiB MiB GiB TiB PiB)
         exponent = (Math.log(n) / Math.log(1024)).to_i
         format("%g #{units[exponent]}",
-               format('%.2f', n.to_f / 1024**exponent))
+          format("%.2f", n.to_f / 1024**exponent))
       end
 
       private
