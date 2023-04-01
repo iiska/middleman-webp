@@ -1,6 +1,9 @@
 module Middleman
   module WebP
     class PathnameMatcher
+      include Comparable
+      attr_reader :pattern
+
       # Initializes matcher with given pattern.
       #
       # pattern - Pattern to match pathnames against to. May be
@@ -16,6 +19,21 @@ module Middleman
         return false if path.nil?
 
         send match_method, Pathname.new(path)
+      end
+
+      # Compares matchers based on their preciness.
+      #
+      # - One with longest pattern is considered to be more precise
+      # - Glob or Regexp patterns are considered more precise than procs.
+      def <=>(other)
+        is_proc_involed = other.pattern.respond_to?(:call) || @pattern.respond_to?(:call)
+        return compare_to_proc(other) if is_proc_involed
+
+        @pattern.to_s.length <=> other.pattern.to_s.length
+      end
+
+      def hash
+        @pattern.hash
       end
 
       private
@@ -41,6 +59,19 @@ module Middleman
 
       def matches_proc?(path)
         @pattern.call(path.to_s)
+      end
+
+      def compare_to_proc(other)
+        i_am_proc = @pattern.respond_to?(:call)
+        other_is_proc = other.pattern.respond_to?(:call)
+
+        if i_am_proc && !other_is_proc
+          return -1
+        elsif !i_am_proc && other_is_proc
+          return 1
+        end
+
+        0
       end
     end
   end

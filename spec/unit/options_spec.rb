@@ -54,5 +54,23 @@ describe Middleman::WebP::Options do
       args = options.for(path)
       value(args).must_match(/^-q 85$/)
     end
+
+    it 'selects most precise file pattern to get file specific option overrides correctly' do
+      path = Pathname.new('lizard.jpg')
+      options_hash = {
+        conversion_options: {
+          '*.jpg' => {
+            q: 85
+          },
+          'lizard.jpg' => {
+            q: 100
+          }
+        }
+      }
+      options = Middleman::WebP::Options.new options_hash
+
+      args = options.for(path)
+      value(args).must_match(/^-q 100$/)
+    end
   end
 end

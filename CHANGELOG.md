@@ -1,3 +1,12 @@
+## 1.0.2
+
+- Fix logic for selecting command line args for the most precise filename
+  pattern, if multiple patterns would match
+
+## 1.0.1
+
+- Add `required_ruby_version` to gemspec.
+
 ## 1.0.0
 
 - Add support for Ruby 2.7, 3,0, 3.1, 3.2

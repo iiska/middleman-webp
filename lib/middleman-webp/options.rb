@@ -35,7 +35,7 @@ module Middleman
 
         return '' if matching.empty?
 
-        matching.sort { |(ga, _oa), (gb, _ob)| gb.size <=> ga.size }[0][1]
+        matching.max_by { |(pathname_matcher, _oa)| pathname_matcher }[1]
       end
 
       private
