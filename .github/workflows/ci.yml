@@ -15,6 +15,7 @@ jobs:
           bundle install
           bundle exec rubocop
   test:
+    needs: lint
     runs-on: ubuntu-22.04
     strategy:
       matrix:
