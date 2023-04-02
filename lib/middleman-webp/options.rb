@@ -20,7 +20,7 @@ module Middleman
         @verbose = options[:verbose] || false
 
         @append_extension = options[:append_extension] || false
-        @allow_skip = !(false == options[:allow_skip])
+        @allow_skip = !(options[:allow_skip] == false)
         @run_before_build = options[:run_before_build] || false
       end
 

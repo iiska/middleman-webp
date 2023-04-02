@@ -42,7 +42,7 @@ module Middleman
         @match_method ||=
           if @pattern.respond_to? :call
             :matches_proc?
-          elsif @pattern.class == Regexp
+          elsif @pattern.instance_of? Regexp
             :matches_re?
           else
             :matches_glob?
