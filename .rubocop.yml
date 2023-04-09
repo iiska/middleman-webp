@@ -1,2 +1,18 @@
-Style/FileName:
-  Enabled: false
+
+# We want Exclude directives merged, not overwritten
+inherit_mode:
+  merge:
+    - Exclude
+
+require:
+  - standard
+  - rubocop-rake
+
+inherit_gem:
+  standard: config/base.yml
+
+inherit_from:
+  - .rubocop_strict.yml
+
+AllCops:
+  TargetRubyVersion: 3.2
