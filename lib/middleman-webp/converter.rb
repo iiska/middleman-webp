@@ -34,9 +34,12 @@ module Middleman
           begin
             dst = destination_path(p)
             exec_convert_tool(p, dst)
-            yield File.new(p), File.new(dst.to_s)
+            yield (src_file = File.new(p)), (dest_file = File.new(dst.to_s))
           rescue StandardError => e
             @builder.trigger :error, "Converting #{p} failed", e.backtrace
+          ensure
+            src_file&.close
+            dest_file&.close
           end
         end
       end
