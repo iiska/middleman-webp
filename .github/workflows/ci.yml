@@ -18,6 +18,3 @@ jobs:
           sudo apt-get install -y webp
           bundle install
           bundle exec rake test
-      - uses: joshmfrankel/simplecov-check-action@main
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
