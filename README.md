@@ -52,8 +52,8 @@ You are not able to use latest gem version if you are using **Middleman 3**. In
 that case install gem with following Gemfile statement:
 
     gem 'middleman-webp', '~> 0.3.2'
-    
-    
+
+
 ### Using with Rubies <= 2.4
 
 Support for Rubies <= 2.4 was dropped in 1.0.0 version of this gem. If you are
@@ -167,3 +167,4 @@ Look for [this example how to do it in .htaccess][htaccess].
 - [Ryan Townsend](https://github.com/ryantownsend)
 - [François VANTOMME](https://github.com/akarzim)
 - [Novtopro He](https://github.com/Novtopro)
+- [Joshua Wood](https://github.com/joshuap)

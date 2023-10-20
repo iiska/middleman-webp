@@ -1,3 +1,8 @@
+## 1.0.3
+
+- Fix converting large number of files. ([PR
+  #24](https://github.com/iiska/middleman-webp/pull/24))
+
 ## 1.0.2
 
 - Fix logic for selecting command line args for the most precise filename
